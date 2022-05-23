@@ -11,6 +11,20 @@ const assetsCopy = path.join(projectDist, 'assets');
 const stylesDir = path.join(__dirname, 'styles');
 const projectDir = path.join(__dirname, 'project-dist');
 
+fs.access(projectDist, async (err) => {
+  if (err) {
+    buildHTML();
+    copyDir();
+    mergeStyles();
+  }
+  else {
+    await fs.promises.rm(projectDist, { recursive: true });
+    buildHTML();
+    copyDir();
+    mergeStyles();
+  }
+});
+
 function callback(err) {
   if (err) throw err;
 }
@@ -83,6 +97,6 @@ function mergeStyles() {
   });
 }
 
-buildHTML();
-copyDir();
-mergeStyles();
+// buildHTML();
+// copyDir();
+// mergeStyles();
